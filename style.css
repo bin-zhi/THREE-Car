@@ -1,0 +1,94 @@
+*{
+  box-sizing: border-box;
+}
+body {
+  margin: 0
+}
+html, body{
+  width: 100%;
+  height: 100%;
+}
+/* 容器 */
+.wrap{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.app{
+  flex: 3;
+}
+.tool{
+  flex: 1;
+  /* 预留底部总价标签位置 */
+  padding-bottom: 60px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 右侧工具-公共 */
+.group{
+  padding: 10px 10px;
+  text-align: center;
+}
+.group .title{
+  font-size: 15px;
+}
+.item_wrap{
+  display: flex;
+  text-align: center;
+}
+.group_list{
+  overflow-y: scroll;
+}
+.group_list::-webkit-scrollbar{
+  display: none;
+}
+
+/* 右侧工具-颜色 */
+
+.item_wrap>div{
+  flex: 1;
+  font-size: 12px;
+}
+.item_wrap .col{
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+.item_wrap p{
+  margin: 5px;
+}
+
+.info_btn{
+  padding: 10px 0;
+  border: 1px solid lightgray;
+}
+
+
+
+
+
+
+/* 底部价格 */
+.price{
+  box-sizing: border-box;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid gray;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+}
+
+.price .next_btn{
+  background-color: #bb0a30;
+  box-sizing: border-box;
+  font-size: 12px;
+  color: white;
+  padding: 10px 15px;
+}
