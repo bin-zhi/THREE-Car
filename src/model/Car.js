@@ -53,6 +53,24 @@ export class Car {
           ],
         },
       },
+      glass: {
+        // 玻璃
+        front: {
+          // 前玻璃
+          name: 'Object_90',
+          model: {},
+        },
+        leftGlass: {
+          // 左玻璃
+          name: 'Object_68',
+          model: {},
+        },
+        rightGlass: {
+          // 右玻璃
+          name: 'Object_81',
+          model: {},
+        },
+      },
     }
     // 车数值相关（记录用于发给后台-保存用户要购车相关信息）
     this.info = {
@@ -98,6 +116,49 @@ export class Car {
         },
       ],
     }
+    // 视角切换数据
+    // 汽车各种视角坐标对象
+    this.positionObj = {
+      // 主驾驶
+      main: {
+        camera: {
+          x: 0.36,
+          y: 0.96,
+          z: -0.16,
+        },
+        controls: {
+          x: 0.36,
+          y: 0.87,
+          z: 0.03,
+        },
+      },
+      // 副驾驶位
+      copilot: {
+        camera: {
+          x: -0.39,
+          y: 0.87,
+          z: 0.07,
+        },
+        controls: {
+          x: -0.39,
+          y: 0.85,
+          z: 0.13,
+        },
+      },
+      // 外面观察
+      outside: {
+        camera: {
+          x: 3,
+          y: 1.5,
+          z: 3,
+        },
+        controls: {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+      },
+    }
     this.init()
     this.modifyCarBody()
     // 创建热点标记
@@ -106,8 +167,12 @@ export class Car {
   init() {
     // 把车模型加入到场景中
     this.scene.add(this.model)
-    // 拿到所以的子项模型
+    // 拿到所有要被修改的模型
     Object.values(this.carModel.body).forEach((obj) => {
+      obj.model = this.model.getObjectByName(obj.name)
+    })
+    // 拿到所有玻璃模型
+    Object.values(this.carModel.glass).forEach((obj) => {
       obj.model = this.model.getObjectByName(obj.name)
     })
     // 注册eventbus事件
@@ -153,9 +218,14 @@ export class Car {
       const price = item.price + this.info.price
       document.querySelector('.price span').innerHTML = `￥ ${price.toFixed(2)}`
     })
+    // 注册视角切换事件
+    EventBus.getInstance().on('changeCamera', (cameraType) => {
+      this.setCameraAnimation(this.positionObj[cameraType])
+    })
   }
   // 更改模型改材质颜色
   modifyCarBody() {
+    // 更改模型默认颜色
     Object.values(this.carModel.body).forEach((obj) => {
       obj.model.material = new THREE.MeshPhysicalMaterial({
         color: 0xff9900,
@@ -165,6 +235,12 @@ export class Car {
         clearcoatRoughness: 0,
       })
     })
+    // 更改模型玻璃为单面渲染
+    Object.values(this.carModel.glass).forEach((obj) => {
+      obj.model.material.side = THREE.FrontSide //改为单面渲染
+    })
+    // 车顶改为双面渲染
+    this.carModel.body.roof.model.material.side = THREE.DoubleSide
   }
   // 创建车门热点标记
   creatdDoorSprite() {
@@ -198,6 +274,21 @@ export class Car {
     gsap.to(mesh.rotation, {
       x: obj.x,
       duration: 1,
+      ease: 'power1.inOut',
+    })
+  }
+  // 摄像机和轨道控制器动画
+  setCameraAnimation(obj) {
+    // 相机
+    gsap.to(this.camera.position, {
+      ...obj.camera,
+      duration: '1',
+      ease: 'power1.inOut',
+    })
+    // 轨道控制器
+    gsap.to(this.controls.target, {
+      ...obj.controls,
+      duration: '1',
       ease: 'power1.inOut',
     })
   }

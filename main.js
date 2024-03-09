@@ -26,4 +26,11 @@ sky.forEach((el) => {
     EventBus.getInstance().emit('changeSky', el.dataset.poi)
   })
 })
+// 视角切换事件
+let group = document.querySelectorAll('.look_group>div')
+group.forEach((el) => {
+  el.addEventListener('click', () => {
+    EventBus.getInstance().emit('changeCamera', el.dataset.po)
+  })
+})
 // EventBus.getInstance().emit('changeColor',)
