@@ -19,4 +19,11 @@ lightStringList.forEach((el) => {
     EventBus.getInstance().emit('changeTotalPrice')
   })
 })
+// 场景切换事件
+let sky = document.querySelectorAll('.scene_group>div')
+sky.forEach((el) => {
+  el.addEventListener('click', () => {
+    EventBus.getInstance().emit('changeSky', el.dataset.poi)
+  })
+})
 // EventBus.getInstance().emit('changeColor',)
