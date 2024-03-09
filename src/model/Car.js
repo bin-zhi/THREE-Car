@@ -56,6 +56,7 @@ export class Car {
     }
     // 车数值相关（记录用于发给后台-保存用户要购车相关信息）
     this.info = {
+      price: 2444700,
       color: [
         {
           name: '土豪金',
@@ -145,6 +146,12 @@ export class Car {
           obj.isSelected = true
         }
       })
+    })
+    // 注册总价改变事件
+    EventBus.getInstance().on('changeTotalPrice', () => {
+      const item = this.info.film.find((item) => item.isSelected)
+      const price = item.price + this.info.price
+      document.querySelector('.price span').innerHTML = `￥ ${price.toFixed(2)}`
     })
   }
   // 更改模型改材质颜色

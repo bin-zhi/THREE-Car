@@ -13,7 +13,10 @@ colorStringList.forEach((el) => {
 let lightStringList = document.querySelectorAll('.coat_group>div')
 lightStringList.forEach((el) => {
   el.addEventListener('click', () => {
+    // 改变材质
     EventBus.getInstance().emit('changeMaterial', el.dataset.co)
+    // 改变总价
+    EventBus.getInstance().emit('changeTotalPrice')
   })
 })
 // EventBus.getInstance().emit('changeColor',)
