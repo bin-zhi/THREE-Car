@@ -4,11 +4,11 @@ export class Sky {
   constructor(scene) {
     this.scene = scene
     this.noMesh = []
-    this.SkyName = '户外' //当前场景名称  默认户外
+    this.SkyName = '展厅' //当前场景名称  默认户外
     this.init()
   }
   init() {
-    this.outdoor()
+    this.indoor()
     EventBus.getInstance().on('changeSky', (skyName) => {
       if (this.SkyName == skyName) return //防止是相同的造成重复销毁和新建
       this.clear() //先清除现有的物体释放空间
@@ -37,6 +37,7 @@ export class Sky {
     })
     const groundSphere = new THREE.Mesh(groundGeometry, groundMaterial)
     groundSphere.rotateX(Math.PI / 2)
+    groundSphere.receiveShadow = true
     this.scene.add(groundSphere)
     this.noMesh.push(groundSphere)
   }

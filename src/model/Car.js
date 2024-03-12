@@ -167,6 +167,10 @@ export class Car {
   init() {
     // 把车模型加入到场景中
     this.scene.add(this.model)
+    // 遍历所有子项开启阴影
+    this.model.traverse((obj) => {
+      obj.castShadow = true
+    })
     // 拿到所有要被修改的模型
     Object.values(this.carModel.body).forEach((obj) => {
       obj.model = this.model.getObjectByName(obj.name)
