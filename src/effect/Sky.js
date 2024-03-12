@@ -4,7 +4,7 @@ export class Sky {
   constructor(scene) {
     this.scene = scene
     this.noMesh = []
-    this.SkyName = '展厅' //当前场景名称  默认户外
+    this.SkyName = '展厅' //当前场景名称  默认展厅
     this.init()
   }
   init() {
